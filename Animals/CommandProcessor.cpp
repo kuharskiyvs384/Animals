@@ -1,33 +1,31 @@
 #include "AnimalContainer.h"
 #include "AnimalFactory.h"
+#include "CommandParser.h"
 #include <fstream>
-#include <sstream>
-#include <map>
 #include <iostream>
+#include <stdexcept>
 #include <windows.h>
 
 class CommandProcessor {
     AnimalContainer container;
 
-    // Парсит "key=value" токены в map
-    static std::map<std::string, std::string> parseKV(std::istringstream& iss) {
-        std::map<std::string, std::string> kv;
-        std::string token;
-        while (iss >> token) {
-            auto pos = token.find('=');
-            if (pos != std::string::npos) {
-                kv[token.substr(0, pos)] = token.substr(pos + 1);
-            }
+    // Маршрутизация команды ADD: первый токен — тип, остальные — параметры key=value
+    void handleAdd(const std::vector<std::string>& tokens) {
+        if (tokens.empty()) {
+            throw std::invalid_argument("ADD: missing animal type");
         }
-        return kv;
+        const std::string& type = tokens[0];
+        std::vector<std::string> params(tokens.begin() + 1, tokens.end());
+        auto kv = CommandParser::parseKV(params);
+        container.add(AnimalFactory::create(type, kv));
     }
 
-    // Извлекает тип и параметры из потока, делегирует создание объекта фабрике.
-    static std::unique_ptr<IAnimal> parseAdd(std::istringstream& iss) {
-        std::string type;
-        iss >> type;
-        auto kv = parseKV(iss);
-        return AnimalFactory::create(type, kv);
+    // Маршрутизация команды REM: ожидается ровно три токена — field, op, value
+    void handleRem(const std::vector<std::string>& tokens) {
+        if (tokens.size() < 3) {
+            throw std::invalid_argument("REM: expected <field> <op> <value>");
+        }
+        container.remove(tokens[0], tokens[1], tokens[2]);
     }
 
 public:
@@ -41,22 +39,21 @@ public:
         int lineNum = 0;
         while (std::getline(fin, line)) {
             ++lineNum;
-            if (line.empty() || line[0] == '#') continue;
-            std::istringstream iss(line);
-            std::string cmd;
-            iss >> cmd;
+            ParsedCommand pc = CommandParser::parse(line);
+
+            // Пустые строки и комментарии пропускаем
+            if (pc.command.empty()) continue;
+
             try {
-                if (cmd == "ADD") {
-                    container.add(parseAdd(iss));
+                if (pc.command == "ADD") {
+                    handleAdd(pc.tokens);
                     std::cout << "ADD ok (строка " << lineNum << ")\n";
-                } else if (cmd == "REM") {
-                    std::string field, op, value;
-                    iss >> field >> op >> value;
-                    container.remove(field, op, value);
-                } else if (cmd == "PRINT") {
+                } else if (pc.command == "REM") {
+                    handleRem(pc.tokens);
+                } else if (pc.command == "PRINT") {
                     container.print();
                 } else {
-                    std::cerr << "Неизвестная команда: " << cmd << "\n";
+                    std::cerr << "Неизвестная команда: " << pc.command << "\n";
                 }
             } catch (const std::exception& e) {
                 std::cerr << "Ошибка в строке " << lineNum
