@@ -1,0 +1,14 @@
+ADD BIRD name=Сокол maxspeed=320.5
+ADD INSECT name=Жук size=2.5 date=2024-05-12
+
+# Некорректные числа — должны быть отвергнуты
+ADD BIRD name=ПлохаяПтица maxspeed=abc
+ADD BIRD name=ПлохаяПтица maxspeed=12.5xyz
+ADD INSECT name=ПлохойЖук size=не_число date=2024-01-01
+
+# Некорректное число в условии REM
+REM maxspeed > быстро
+REM size < мал
+
+# Контейнер должен содержать только 2 корректных объекта
+PRINT

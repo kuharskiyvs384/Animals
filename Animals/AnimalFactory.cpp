@@ -1,5 +1,6 @@
 #include "AnimalFactory.h"
 #include "Animal.h"
+#include "Utils.h"
 #include <stdexcept>
 
 const std::string& AnimalFactory::requireField(
@@ -7,7 +8,7 @@ const std::string& AnimalFactory::requireField(
     const std::string& key) {
     auto it = kv.find(key);
     if (it == kv.end()) {
-        throw std::invalid_argument("Обязательное поле не указано: " + key);
+        throw std::invalid_argument("Missing required field: " + key);
     }
     return it->second;
 }
@@ -27,16 +28,24 @@ std::unique_ptr<IAnimal> AnimalFactory::create(
 
     if (type == "BIRD") {
         const std::string& speedStr = requireField(kv, "maxspeed");
-        double s = std::stod(speedStr);
-        return std::make_unique<Bird>(name, s);
+        auto s = tryParseDouble(speedStr);
+        if (!s.has_value()) {
+            throw std::invalid_argument(
+                "Невозможно распарсить число: " + speedStr);
+        }
+        return std::make_unique<Bird>(name, s.value());
     }
 
     if (type == "INSECT") {
         const std::string& sizeStr = requireField(kv, "size");
         const std::string& dateStr = requireField(kv, "date");
-        double sz = std::stod(sizeStr);
-        return std::make_unique<Insect>(name, sz, dateStr);
+        auto sz = tryParseDouble(sizeStr);
+        if (!sz.has_value()) {
+            throw std::invalid_argument(
+                "Невозможно распарсить число: " + sizeStr);
+        }
+        return std::make_unique<Insect>(name, sz.value(), dateStr);
     }
 
-    throw std::runtime_error("Не известный тип животного: " + type);
+    throw std::runtime_error("Unknown animal type: " + type);
 }

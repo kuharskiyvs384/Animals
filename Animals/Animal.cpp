@@ -1,4 +1,5 @@
 #include "Animal.h"
+#include "Utils.h"
 #include <stdexcept>
 
 // Универсальный шаблон сравнения
@@ -35,7 +36,12 @@ bool Bird::matchField(const std::string& field,
                       const std::string& op,
                       const std::string& value) const {
     if (field == "maxspeed") {
-        return compare<double>(maxSpeed, op, std::stod(value));
+        auto v = tryParseDouble(value);
+        if (!v.has_value()) {
+            throw std::invalid_argument(
+                "Невозможно распарсить число: " + value);
+        }
+        return compare<double>(maxSpeed, op, v.value());
     }
     return Animal::matchField(field, op, value);
 }
@@ -43,7 +49,14 @@ bool Bird::matchField(const std::string& field,
 bool Insect::matchField(const std::string& field,
                         const std::string& op,
                         const std::string& value) const {
-    if (field == "size") return compare<double>(size, op, std::stod(value));
+    if (field == "size") {
+        auto v = tryParseDouble(value);
+        if (!v.has_value()) {
+            throw std::invalid_argument(
+                "Невозможно распарсить число: " + value);
+        }
+        return compare<double>(size, op, v.value());
+    }
     if (field == "date") return compare<std::string>(date, op, value);
     return Animal::matchField(field, op, value);
 }
