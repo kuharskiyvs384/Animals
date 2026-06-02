@@ -9,7 +9,8 @@ class CommandProcessor {
     AnimalContainer container;
 
     // Парсит "key=value" токены в map
-    std::map<std::string, std::string> parseKV(std::istringstream& iss) {
+    // [Cppcheck fix] метод не использует поля класса -> сделан static
+    static std::map<std::string, std::string> parseKV(std::istringstream& iss) {
         std::map<std::string, std::string> kv;
         std::string token;
         while (iss >> token) {
@@ -21,7 +22,7 @@ class CommandProcessor {
         return kv;
     }
 
-    std::unique_ptr<Animal> parseAdd(std::istringstream& iss) {
+    static std::unique_ptr<Animal> parseAdd(std::istringstream& iss) {
         std::string type;
         iss >> type;
         auto kv = parseKV(iss);

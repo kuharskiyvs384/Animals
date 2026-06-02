@@ -35,15 +35,17 @@ public:
     explicit Animal(const std::string& n) : name(n) {}
     virtual ~Animal() = default;
 
-    std::string getName() const { return name; }
-    virtual std::string getType() const = 0;
+    // [Cppcheck fix] возврат по const-ссылке вместо копии
+    [[nodiscard]] const std::string& getName() const { return name; }
+
+    [[nodiscard]] virtual std::string getType() const = 0;
     virtual void print(std::ostream& os) const = 0;
 
     // Проверка соответствия условию для команды REM
     // field — имя поля, op — оператор, value — значение
-    virtual bool matchField(const std::string& field,
-                            const std::string& op,
-                            const std::string& value) const;
+    [[nodiscard]] virtual bool matchField(const std::string& field,
+                                          const std::string& op,
+                                          const std::string& value) const;
 };
 
 // ===== Рыбы =====
@@ -51,15 +53,18 @@ class Fish : public Animal {
     Habitat habitat;
 public:
     Fish(const std::string& n, Habitat h) : Animal(n), habitat(h) {}
-    std::string getType() const override { return "FISH"; }
-    Habitat getHabitat() const { return habitat; }
+
+    [[nodiscard]] std::string getType() const override { return "FISH"; }
+    [[nodiscard]] Habitat getHabitat() const { return habitat; }
+
     void print(std::ostream& os) const override {
         os << "[Рыба]  Название: " << name
            << "   Место обитания: " << habitatToString(habitat) << "\n";
     }
-    bool matchField(const std::string& field,
-                    const std::string& op,
-                    const std::string& value) const override;
+
+    [[nodiscard]] bool matchField(const std::string& field,
+                                  const std::string& op,
+                                  const std::string& value) const override;
 };
 
 // ===== Птицы =====
@@ -67,15 +72,18 @@ class Bird : public Animal {
     double maxSpeed;
 public:
     Bird(const std::string& n, double s) : Animal(n), maxSpeed(s) {}
-    std::string getType() const override { return "BIRD"; }
-    double getMaxSpeed() const { return maxSpeed; }
+
+    [[nodiscard]] std::string getType() const override { return "BIRD"; }
+    [[nodiscard]] double getMaxSpeed() const { return maxSpeed; }
+
     void print(std::ostream& os) const override {
         os << "[Птица]  Название: " << name
            << "   Максимальтная скорость: " << maxSpeed << "\n";
     }
-    bool matchField(const std::string& field,
-                    const std::string& op,
-                    const std::string& value) const override;
+
+    [[nodiscard]] bool matchField(const std::string& field,
+                                  const std::string& op,
+                                  const std::string& value) const override;
 };
 
 // ===== Насекомые =====
@@ -85,17 +93,22 @@ class Insect : public Animal {
 public:
     Insect(const std::string& n, double sz, const std::string& d)
         : Animal(n), size(sz), date(d) {}
-    std::string getType() const override { return "INSECT"; }
-    double getSize() const { return size; }
-    std::string getDate() const { return date; }
+
+    [[nodiscard]] std::string getType() const override { return "INSECT"; }
+    [[nodiscard]] double getSize() const { return size; }
+
+    // [Cppcheck fix] возврат по const-ссылке вместо копии
+    [[nodiscard]] const std::string& getDate() const { return date; }
+
     void print(std::ostream& os) const override {
         os << "[Насекомое]  Название: " << name
            << "   Размер: " << size
            << "   Дата обнаружения: " << date << "\n";
     }
-    bool matchField(const std::string& field,
-                    const std::string& op,
-                    const std::string& value) const override;
+
+    [[nodiscard]] bool matchField(const std::string& field,
+                                  const std::string& op,
+                                  const std::string& value) const override;
 };
 
 #endif
