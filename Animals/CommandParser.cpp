@@ -4,7 +4,6 @@
 ParsedCommand CommandParser::parse(const std::string& line) {
     ParsedCommand result;
 
-    // Пропускаем пустые строки и комментарии
     if (line.empty() || line[0] == '#') {
         return result;
     }

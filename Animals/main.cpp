@@ -4,8 +4,8 @@
 #include <windows.h>
 
 int main(int argc, char* argv[]) {
-    SetConsoleOutputCP(CP_UTF8);   // вывод в UTF-8
-    SetConsoleCP(CP_UTF8);         // ввод в UTF-8
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
 
     AnimalManager manager;
     FileProcessor fp(manager);

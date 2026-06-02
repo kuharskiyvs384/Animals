@@ -1,2 +1,6 @@
 C:\Users\Viktor\source\repos\Animals\Animals\Animal.cpp;C:\Users\Viktor\source\repos\Animals\Animals\x64\Debug\Animal.obj
-C:\Users\Viktor\source\repos\Animals\Animals\CommandProcessor.cpp;C:\Users\Viktor\source\repos\Animals\Animals\x64\Debug\CommandProcessor.obj
+C:\Users\Viktor\source\repos\Animals\Animals\AnimalFactory.cpp;C:\Users\Viktor\source\repos\Animals\Animals\x64\Debug\AnimalFactory.obj
+C:\Users\Viktor\source\repos\Animals\Animals\AnimalManager.cpp;C:\Users\Viktor\source\repos\Animals\Animals\x64\Debug\AnimalManager.obj
+C:\Users\Viktor\source\repos\Animals\Animals\CommandParser.cpp;C:\Users\Viktor\source\repos\Animals\Animals\x64\Debug\CommandParser.obj
+C:\Users\Viktor\source\repos\Animals\Animals\FileProcessor.cpp;C:\Users\Viktor\source\repos\Animals\Animals\x64\Debug\FileProcessor.obj
+C:\Users\Viktor\source\repos\Animals\Animals\main.cpp;C:\Users\Viktor\source\repos\Animals\Animals\x64\Debug\main.obj

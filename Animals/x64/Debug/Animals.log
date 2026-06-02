@@ -1,4 +1,8 @@
 ﻿  Animal.cpp
-  CommandProcessor.cpp
+  AnimalFactory.cpp
+  AnimalManager.cpp
+  CommandParser.cpp
+  FileProcessor.cpp
+  main.cpp
   Создание кода...
   Animals.vcxproj -> C:\Users\Viktor\source\repos\Animals\x64\Debug\Animals.exe
