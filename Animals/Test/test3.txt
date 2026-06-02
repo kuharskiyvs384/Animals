@@ -1,0 +1,6 @@
+ADD FISH name=Карп habitat=РЕКА
+ADD BIRD name=Орёл maxspeed=190
+ADD INSECT name=Бабочка size=5.0 date=2025-01-15
+PRINT
+REM name == Карп
+PRINT

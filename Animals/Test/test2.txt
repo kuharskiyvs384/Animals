@@ -1,0 +1,13 @@
+ADD FISH name=Карп habitat=РЕКА
+ADD FISH name=Тунец habitat=МОРЕ
+ADD BIRD name=Сокол maxspeed=320.5
+ADD BIRD name=Воробей maxspeed=45.0
+ADD INSECT name=Жук size=2.5 date=2024-05-12
+ADD INSECT name=Бабочка size=4.8 date=2025-03-01
+PRINT
+REM maxspeed > 100
+PRINT
+REM size < 3.0
+PRINT
+REM habitat == МОРЕ
+PRINT

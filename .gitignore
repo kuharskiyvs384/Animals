@@ -1,0 +1,20 @@
+# Visual Studio
+.vs/
+Debug/
+Release/
+x64/
+x86/
+*.obj
+*.exe
+*.pdb
+*.ilk
+*.user
+*.suo
+
+# Сборка
+build/
+out/
+
+# Логи и временные файлы
+*.log
+callgrind.out.*

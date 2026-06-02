@@ -1,0 +1,3 @@
+ADD FISH name=Щука habitat=ОЗЕРО
+REM type == FISH
+PRINT

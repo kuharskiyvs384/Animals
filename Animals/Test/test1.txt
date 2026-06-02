@@ -1,0 +1,6 @@
+ADD BIRD name=Сокол maxspeed=320.5
+ADD BIRD name=Воробей maxspeed=45.0
+ADD BIRD name=Стриж maxspeed=170.0
+PRINT
+REM maxspeed > 100
+PRINT
