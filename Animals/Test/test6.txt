@@ -1,0 +1,10 @@
+# Пропущен обязательный параметр habitat
+ADD FISH name=Карп
+
+# Пропущен обязательный параметр maxspeed
+ADD BIRD name=Сокол
+
+# Пропущен обязательный параметр date
+ADD INSECT name=Жук size=2.5
+
+PRINT

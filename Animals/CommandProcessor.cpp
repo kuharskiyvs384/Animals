@@ -1,5 +1,5 @@
 #include "AnimalContainer.h"
-#include "Animal.h"
+#include "AnimalFactory.h"
 #include <fstream>
 #include <sstream>
 #include <map>
@@ -22,25 +22,12 @@ class CommandProcessor {
         return kv;
     }
 
+    // Извлекает тип и параметры из потока, делегирует создание объекта фабрике.
     static std::unique_ptr<IAnimal> parseAdd(std::istringstream& iss) {
         std::string type;
         iss >> type;
         auto kv = parseKV(iss);
-        std::string name = kv.count("name") ? kv["name"] : "";
-
-        if (type == "FISH") {
-            Habitat h = stringToHabitat(kv["habitat"]);
-            return std::make_unique<Fish>(name, h);
-        }
-        if (type == "BIRD") {
-            double s = std::stod(kv["maxspeed"]);
-            return std::make_unique<Bird>(name, s);
-        }
-        if (type == "INSECT") {
-            double sz = std::stod(kv["size"]);
-            return std::make_unique<Insect>(name, sz, kv["date"]);
-        }
-        throw std::runtime_error("Unknown type: " + type);
+        return AnimalFactory::create(type, kv);
     }
 
 public:
