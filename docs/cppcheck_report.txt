@@ -1,0 +1,26 @@
+Animals\Animal.h:38:17: performance: Function 'getName()' should return member 'name' by const reference. [returnByReference]
+    std::string getName() const { return name; }
+                ^
+Animals\Animal.h:90:17: performance: Function 'getDate()' should return member 'date' by const reference. [returnByReference]
+    std::string getDate() const { return date; }
+                ^
+Animals\CommandProcessor.cpp:12:40: style: The member function 'CommandProcessor::parseKV' can be static. [functionStatic]
+    std::map<std::string, std::string> parseKV(std::istringstream& iss) {
+                                       ^
+Animals\Animal.h:38:17: style: The function 'getName' is never used. [unusedFunction]
+    std::string getName() const { return name; }
+                ^
+Animals\Animal.h:55:13: style: The function 'getHabitat' is never used. [unusedFunction]
+    Habitat getHabitat() const { return habitat; }
+            ^
+Animals\Animal.h:71:12: style: The function 'getMaxSpeed' is never used. [unusedFunction]
+    double getMaxSpeed() const { return maxSpeed; }
+           ^
+Animals\Animal.h:89:12: style: The function 'getSize' is never used. [unusedFunction]
+    double getSize() const { return size; }
+           ^
+Animals\Animal.h:90:17: style: The function 'getDate' is never used. [unusedFunction]
+    std::string getDate() const { return date; }
+                ^
+nofile:0:0: information: Active checkers: 183/186 (use --checkers-report=<filename> to see details) [checkersReport]
+
