@@ -1,4 +1,5 @@
 #include "AnimalContainer.h"
+#include "Animal.h"
 #include <fstream>
 #include <sstream>
 #include <map>
@@ -9,7 +10,6 @@ class CommandProcessor {
     AnimalContainer container;
 
     // Парсит "key=value" токены в map
-    // [Cppcheck fix] метод не использует поля класса -> сделан static
     static std::map<std::string, std::string> parseKV(std::istringstream& iss) {
         std::map<std::string, std::string> kv;
         std::string token;
@@ -22,11 +22,11 @@ class CommandProcessor {
         return kv;
     }
 
-    static std::unique_ptr<Animal> parseAdd(std::istringstream& iss) {
+    static std::unique_ptr<IAnimal> parseAdd(std::istringstream& iss) {
         std::string type;
         iss >> type;
         auto kv = parseKV(iss);
-        std::string name = kv.count("name") ? kv["name"] : "Unnamed";
+        std::string name = kv.count("name") ? kv["name"] : "";
 
         if (type == "FISH") {
             Habitat h = stringToHabitat(kv["habitat"]);

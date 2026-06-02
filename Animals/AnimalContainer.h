@@ -1,14 +1,16 @@
 #ifndef ANIMAL_CONTAINER_H
 #define ANIMAL_CONTAINER_H
 
-#include "Animal.h"
+#include "IAnimal.h"
 #include <vector>
 #include <memory>
+#include <algorithm>
+#include <iostream>
 
 class AnimalContainer {
-    std::vector<std::unique_ptr<Animal>> items;
+    std::vector<std::unique_ptr<IAnimal>> items;
 public:
-    void add(std::unique_ptr<Animal> a) {
+    void add(std::unique_ptr<IAnimal> a) {
         items.push_back(std::move(a));
     }
 
@@ -16,7 +18,7 @@ public:
                 const std::string& op,
                 const std::string& value) {
         auto it = std::remove_if(items.begin(), items.end(),
-            [&](const std::unique_ptr<Animal>& a) {
+            [&](const std::unique_ptr<IAnimal>& a) {
                 return a->matchField(field, op, value);
             });
         size_t removed = std::distance(it, items.end());
