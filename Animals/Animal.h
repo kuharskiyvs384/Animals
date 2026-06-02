@@ -2,8 +2,9 @@
 #define ANIMAL_H
 
 #include "IAnimal.h"
+#include "AnimalTypes.h"
 #include <string>
-#include <iostream>
+#include <iosfwd>
 #include <stdexcept>
 
 // Перечислимый тип для места обитания рыб
@@ -30,7 +31,6 @@ inline Habitat stringToHabitat(const std::string& s) {
 }
 
 // Абстрактный базовый класс — реализует общую часть интерфейса IAnimal.
-// Поле name иммутабельно после конструирования.
 class Animal : public IAnimal {
 protected:
     const std::string name;
@@ -38,14 +38,12 @@ protected:
 public:
     explicit Animal(const std::string& n) : name(n) {
         if (n.empty()) {
-            throw std::invalid_argument("имя не указано");
+            throw std::invalid_argument("name is empty");
         }
     }
 
     [[nodiscard]] const std::string& getName() const override { return name; }
 
-    // Базовая реализация matchField (общие поля: name, type).
-    // Наследники могут расширять эту логику.
     [[nodiscard]] bool matchField(const std::string& field,
                                   const std::string& op,
                                   const std::string& value) const override;
@@ -58,17 +56,14 @@ public:
     Fish(const std::string& n, Habitat h)
         : Animal(n), habitat(h) {
         if (h == Habitat::UNKNOWN) {
-            throw std::invalid_argument("место обитания не известно");
+            throw std::invalid_argument("habitat is unknown");
         }
     }
 
-    [[nodiscard]] std::string getType() const override { return "FISH"; }
+    [[nodiscard]] std::string getType() const override { return AnimalTypes::FISH; }
     [[nodiscard]] Habitat getHabitat() const { return habitat; }
 
-    void print(std::ostream& os) const override {
-        os << "[Рыба]  Название: " << name
-           << "   Место обитания: " << habitatToString(habitat) << "\n";
-    }
+    void print(std::ostream& os) const override;
 
     [[nodiscard]] bool matchField(const std::string& field,
                                   const std::string& op,
@@ -82,17 +77,14 @@ public:
     Bird(const std::string& n, double s)
         : Animal(n), maxSpeed(s) {
         if (s < 0) {
-            throw std::invalid_argument("максимальная скорость должна быть >= 0");
+            throw std::invalid_argument("maxSpeed must be >= 0");
         }
     }
 
-    [[nodiscard]] std::string getType() const override { return "BIRD"; }
+    [[nodiscard]] std::string getType() const override { return AnimalTypes::BIRD; }
     [[nodiscard]] double getMaxSpeed() const { return maxSpeed; }
 
-    void print(std::ostream& os) const override {
-        os << "[Птица]  Название: " << name
-           << "   Максимальтная скорость: " << maxSpeed << "\n";
-    }
+    void print(std::ostream& os) const override;
 
     [[nodiscard]] bool matchField(const std::string& field,
                                   const std::string& op,
@@ -102,27 +94,23 @@ public:
 // ===== Насекомые =====
 class Insect : public Animal {
     const double size;
-    const std::string date; // дата в формате YYYY-MM-DD
+    const std::string date;
 public:
     Insect(const std::string& n, double sz, const std::string& d)
         : Animal(n), size(sz), date(d) {
         if (sz < 0) {
-            throw std::invalid_argument("размер должен быть >= 0");
+            throw std::invalid_argument("size must be >= 0");
         }
         if (d.empty()) {
-            throw std::invalid_argument("дата не указана");
+            throw std::invalid_argument("date is empty");
         }
     }
 
-    [[nodiscard]] std::string getType() const override { return "INSECT"; }
+    [[nodiscard]] std::string getType() const override { return AnimalTypes::INSECT; }
     [[nodiscard]] double getSize() const { return size; }
     [[nodiscard]] const std::string& getDate() const { return date; }
 
-    void print(std::ostream& os) const override {
-        os << "[Насекомое]  Название: " << name
-           << "   Размер: " << size
-           << "   Дата обнаружения: " << date << "\n";
-    }
+    void print(std::ostream& os) const override;
 
     [[nodiscard]] bool matchField(const std::string& field,
                                   const std::string& op,

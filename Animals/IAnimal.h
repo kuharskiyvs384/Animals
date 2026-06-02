@@ -2,10 +2,9 @@
 #define IANIMAL_H
 
 #include <string>
-#include <iostream>
+#include <iosfwd>
 
 // Чисто абстрактный интерфейс для всех животных.
-// Описывает контракт, не содержит данных.
 class IAnimal {
 public:
     virtual ~IAnimal() = default;
@@ -15,8 +14,6 @@ public:
 
     virtual void print(std::ostream& os) const = 0;
 
-    // Проверка соответствия условию для команды REM:
-    // field — имя поля, op — оператор сравнения, value — значение
     [[nodiscard]] virtual bool matchField(const std::string& field,
                                           const std::string& op,
                                           const std::string& value) const = 0;

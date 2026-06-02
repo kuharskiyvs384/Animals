@@ -6,6 +6,7 @@
 #include <memory>
 #include <algorithm>
 #include <iostream>
+#include <string>
 
 class AnimalContainer {
     std::vector<std::unique_ptr<IAnimal>> items;

@@ -1,5 +1,6 @@
 #include "Animal.h"
 #include "Utils.h"
+#include <iostream>
 #include <stdexcept>
 
 // Универсальный шаблон сравнения
@@ -22,6 +23,12 @@ bool Animal::matchField(const std::string& field,
     return false;
 }
 
+// ===== Fish =====
+void Fish::print(std::ostream& os) const {
+    os << "[Рыба]  Название: " << name
+       << "   Место обитания: " << habitatToString(habitat) << "\n";
+}
+
 bool Fish::matchField(const std::string& field,
                       const std::string& op,
                       const std::string& value) const {
@@ -32,18 +39,30 @@ bool Fish::matchField(const std::string& field,
     return Animal::matchField(field, op, value);
 }
 
+// ===== Bird =====
+void Bird::print(std::ostream& os) const {
+    os << "[Птица]  Название: " << name
+       << "   Максимальтная скорость: " << maxSpeed << "\n";
+}
+
 bool Bird::matchField(const std::string& field,
                       const std::string& op,
                       const std::string& value) const {
     if (field == "maxspeed") {
         auto v = tryParseDouble(value);
         if (!v.has_value()) {
-            throw std::invalid_argument(
-                "Невозможно распарсить число: " + value);
+            throw std::invalid_argument("Невозможно распарсить число: " + value);
         }
         return compare<double>(maxSpeed, op, v.value());
     }
     return Animal::matchField(field, op, value);
+}
+
+// ===== Insect =====
+void Insect::print(std::ostream& os) const {
+    os << "[Насекомое]  Название: " << name
+       << "   Размер: " << size
+       << "   Дата обнаружения: " << date << "\n";
 }
 
 bool Insect::matchField(const std::string& field,
@@ -52,8 +71,7 @@ bool Insect::matchField(const std::string& field,
     if (field == "size") {
         auto v = tryParseDouble(value);
         if (!v.has_value()) {
-            throw std::invalid_argument(
-                "Невозможно распарсить число: " + value);
+            throw std::invalid_argument("Невозможно распарсить число: " + value);
         }
         return compare<double>(size, op, v.value());
     }

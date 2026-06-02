@@ -1,20 +1,35 @@
-# Visual Studio
-.vs/
-Debug/
-Release/
+# ====== Visual Studio build artifacts ======
 x64/
 x86/
+Debug/
+Release/
+build/
+out/
+
+# ====== Object files / executables ======
 *.obj
 *.exe
 *.pdb
 *.ilk
+*.lib
+*.dll
+*.exp
+
+# ====== IDE files ======
+.vs/
 *.user
 *.suo
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.opendb
 
-# Сборка
-build/
-out/
+# ====== Analyzer reports ======
+*_report.txt
+clang_tidy_*.txt
+cppcheck_*.txt
+*.tmp
 
-# Логи и временные файлы
-*.log
-callgrind.out.*
+# ====== OS ======
+Thumbs.db
+.DS_Store

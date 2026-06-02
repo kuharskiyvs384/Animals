@@ -1,6 +1,5 @@
 #include "AnimalManager.h"
 #include "AnimalFactory.h"
-#include <iostream>
 #include <stdexcept>
 
 void AnimalManager::execute(const ParsedCommand& pc) {
